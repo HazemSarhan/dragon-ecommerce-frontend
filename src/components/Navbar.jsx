@@ -51,7 +51,9 @@ const Navbar = () => {
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
-          <img src={logo} alt="logo" className="h-10 w-auto" />
+          <Link to="/">
+            <img src={logo} alt="logo" className="h-10 w-auto" />
+          </Link>
         </div>
 
         {/* Search Bar */}
@@ -91,18 +93,9 @@ const Navbar = () => {
                 </NavigationMenuList>
               </NavigationMenu>
 
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <MagicButton title="My Account" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  className="bg-white dark:bg-zinc-900 shadow-lg rounded-md border border-border"
-                >
-                  <DropdownMenuItem>Login</DropdownMenuItem>
-                  <DropdownMenuItem>Register</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <Link to="/login">
+                <MagicButton title="My Account" />
+              </Link>
             </div>
           </div>
           {/* Icons */}
