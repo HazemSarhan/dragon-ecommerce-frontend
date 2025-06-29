@@ -109,7 +109,7 @@ const BestSellingSection = () => {
       </Swiper>
 
       <div className="flex justify-center items-center gap-4 pt-10">
-        <button className="best-selling-prev w-8 h-8 rounded-full flex items-center justify-center bg-purple-500 transition-all duration-200 cursor-pointer">
+        <button className="best-selling-prev w-8 h-8 px-2 rounded-full flex items-center justify-center bg-purple-500 transition-all duration-200 cursor-pointer">
           <FaArrowLeft className="text-white" />
         </button>
         {[...Array(bestSellingProducts.length)].map((_, i) => (
@@ -118,7 +118,7 @@ const BestSellingSection = () => {
             className={i === activeIndex ? 'text-purple-500' : 'text-[#F3F3F3]'}
           />
         ))}
-        <button className="best-selling-next w-8 h-8 rounded-full flex items-center justify-center bg-purple-500 transition-all duration-200 cursor-pointer">
+        <button className="best-selling-next w-8 h-8 px-2 rounded-full flex items-center justify-center bg-purple-500 transition-all duration-200 cursor-pointer">
           <FaArrowRight className="text-white" />
         </button>
       </div>
