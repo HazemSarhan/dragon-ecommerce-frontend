@@ -129,20 +129,35 @@ export const bestSellingProducts = [
 export const whyChooseUs = [
   {
     id: 1,
-    icon: <ShieldCheck size={35} />,
+    icon: (
+      <ShieldCheck
+        size={50}
+        className="p-3 bg-white hover:bg-purple-500 hover:text-white transition-colors duration-300 text-black rounded-full"
+      />
+    ),
     title: '100% Secure Shopping',
     description: 'We use end-to-end encryption and trusted payment gateways.',
   },
   {
     id: 2,
-    icon: <Truck size={35} />,
+    icon: (
+      <Truck
+        size={50}
+        className="p-3 bg-white hover:bg-purple-500 hover:text-white transition-colors duration-300 text-black rounded-full"
+      />
+    ),
     title: 'Fast & Free Delivery',
     description:
       'Enjoy quick and free shipping on all orders above $200 across the country.',
   },
   {
     id: 3,
-    icon: <Headphones size={35} />,
+    icon: (
+      <Headphones
+        size={50}
+        className="p-3 bg-white hover:bg-purple-500 hover:text-white transition-colors duration-300 text-black rounded-full"
+      />
+    ),
     title: '24/7 Customer Support',
     description:
       'Our expert support team is here for you day and night — whenever you need help.',
