@@ -22,6 +22,7 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { PiStarFourFill } from 'react-icons/pi';
 import { IoIosCart } from 'react-icons/io';
 import StarRating from './ui/StarRating';
+import { Link } from 'react-router';
 
 const BestSellingSection = () => {
   const swiperRef = useRef(null);
@@ -77,24 +78,26 @@ const BestSellingSection = () => {
         {bestSellingProducts.map((product) => (
           <SwiperSlide key={product.id} className="w-[280px]">
             <Card className="h-full">
-              <CardHeader>
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  className="w-full h-50 object-contain"
-                />
-                <CardTitle className="text-base">{product.title}</CardTitle>
-                <CardDescription className="text-sm">
-                  ${product.price}
-                  <div className="reviews my-2 flex gap-2 text-sm text-white font-bold">
-                    <span>{product.rating.toFixed(1)}</span>
-                    <StarRating
-                      className="text-white"
-                      rating={product.rating}
-                    />
-                  </div>
-                </CardDescription>
-              </CardHeader>
+              <Link to="/product/:id">
+                <CardHeader>
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    className="w-full h-50 object-contain"
+                  />
+                  <CardTitle className="text-base">{product.title}</CardTitle>
+                  <CardDescription className="text-sm">
+                    ${product.price}
+                    <div className="reviews my-2 flex gap-2 text-sm text-white font-bold">
+                      <span>{product.rating.toFixed(1)}</span>
+                      <StarRating
+                        className="text-white"
+                        rating={product.rating}
+                      />
+                    </div>
+                  </CardDescription>
+                </CardHeader>
+              </Link>
               <CardContent>
                 <Button className="w-full">
                   Add To Cart

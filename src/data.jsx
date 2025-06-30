@@ -190,3 +190,39 @@ export const testimonials = [
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet vero aliquid alias nisi totam, ullam consequatur ex quis fugiat dolorum officia mollitia amet ab ratione recusandae distinctio eum laborum animi facere porro adipisci cupiditate, deleniti inventore? Totam velit at reprehenderit cupiditate doloribus, harum laboriosam alias, explicabo aperiam aliquam aut quae.',
   },
 ];
+
+export const singleProduct = [
+  {
+    id: 2,
+    title: 'MSI RTX 4080 SUPRIM X',
+    category: 'GPU',
+    price: 1399.99,
+    rating: 4.8,
+    image: product2,
+    reviews: [
+      {
+        id: 1,
+        author: 'Hazem M.',
+        rating: 5,
+        comment:
+          'Absolutely amazing performance! Handles 4K gaming like a beast.',
+        date: '2025-06-20',
+      },
+      {
+        id: 2,
+        author: 'Sarah A.',
+        rating: 4,
+        comment: 'Very powerful GPU, but the fan is a bit noisy under load.',
+        date: '2025-06-18',
+      },
+      {
+        id: 3,
+        author: 'Omar S.',
+        rating: 5,
+        comment:
+          'Upgraded from a 3080 — the difference is massive. Worth every Riyal.',
+        date: '2025-06-15',
+      },
+    ],
+  },
+];
