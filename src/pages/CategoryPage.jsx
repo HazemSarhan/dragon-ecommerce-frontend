@@ -105,7 +105,7 @@ const CategoryPage = () => {
                 <MagicButton title="Apply Filters" />
               </div>
             </div>
-            <div className="right w-full md:flex-1 grid grid-cols-2 md:grid-cols-3 gap-10 md:gap-5 border p-5">
+            <div className="right w-full md:flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-5 border p-5">
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product) => {
                   return <ProductCard key={product.id} product={product} />;

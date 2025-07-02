@@ -1,5 +1,5 @@
 import Navbar from '@/components/Navbar';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -15,6 +15,13 @@ import { Label } from '@/components/ui/label';
 import { Link } from 'react-router';
 
 const LoginPage = ({ className, ...props }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const handleLogin = (e) => {
+    e.preventDefault();
+    console.log(email, password);
+  };
+
   return (
     <>
       <Navbar />
@@ -38,7 +45,7 @@ const LoginPage = ({ className, ...props }) => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <form>
+                  <form onSubmit={handleLogin}>
                     <div className="flex flex-col gap-6">
                       <div className="grid gap-3">
                         <Label htmlFor="email">Email</Label>
@@ -46,6 +53,8 @@ const LoginPage = ({ className, ...props }) => {
                           id="email"
                           type="email"
                           placeholder="example@email.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                           required
                         />
                       </div>
@@ -59,7 +68,13 @@ const LoginPage = ({ className, ...props }) => {
                             Forgot your password?
                           </a>
                         </div>
-                        <Input id="password" type="password" required />
+                        <Input
+                          id="password"
+                          type="password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          required
+                        />
                       </div>
                       <div className="flex flex-col gap-3">
                         <Button type="submit" className="w-full">
