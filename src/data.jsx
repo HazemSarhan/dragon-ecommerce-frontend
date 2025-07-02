@@ -226,3 +226,76 @@ export const singleProduct = [
     ],
   },
 ];
+
+export const cartItems = [
+  {
+    id: 1,
+    title: 'NVIDIA GeForce RTX 4090',
+    category: 'GPU',
+    price: 2199.99,
+    rating: 5,
+    image: product1,
+  },
+  {
+    id: 2,
+    title: 'MSI RTX 4080 SUPRIM X',
+    category: 'GPU',
+    price: 1399.99,
+    rating: 4.8,
+    image: product2,
+  },
+  {
+    id: 3,
+    title: 'Intel Core i9-14900K',
+    category: 'CPU',
+    price: 629.99,
+    rating: 4.9,
+    image: product3,
+  },
+];
+
+export const products = [
+  {
+    id: 1,
+    title: 'Intel Core i9-14900K',
+    category: 'cpu',
+    price: 629.99,
+    image: product3,
+  },
+  {
+    id: 2,
+    title: 'NVIDIA GeForce RTX 4090',
+    category: 'gpu',
+    price: 2199.99,
+    image: product1,
+  },
+  {
+    id: 6,
+    title: 'NVIDIA GeForce RTX 4090',
+    category: 'gpu',
+    price: 2199.99,
+    image: product1,
+  },
+  {
+    id: 5,
+    title: 'NVIDIA GeForce RTX 4090',
+    category: 'gpu',
+    price: 2199.99,
+    image: product1,
+  },
+  {
+    id: 3,
+    title: 'Corsair Dominator Platinum RGB 64GB',
+    category: 'ram',
+    price: 329.99,
+    image: product8,
+  },
+];
+
+export const brands = [
+  { id: 1, brand: 'Asus' },
+  { id: 2, brand: 'MSI' },
+  { id: 3, brand: 'Gigabyte' },
+  { id: 4, brand: 'Corsair' },
+  { id: 5, brand: 'Nvidia' },
+];

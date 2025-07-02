@@ -30,7 +30,7 @@ function ListItem({ title, children, href, ...props }) {
     <li {...props}>
       <NavigationMenuLink asChild>
         <Link to={href}>
-          <div className="text-sm font-medium leading-none hover:text-red-500">
+          <div className="text-sm font-medium leading-none hover:text-purple-500">
             {title}
           </div>
           <p className="text-sm text-muted-foreground line-clamp-2">
@@ -99,9 +99,11 @@ const Navbar = () => {
             </div>
           </div>
           {/* Icons */}
-          <Button variant="ghost" size="icon">
-            <FiShoppingCart className="text-xl" />
-          </Button>
+          <Link to="/cart">
+            <Button variant="ghost" size="icon">
+              <FiShoppingCart className="text-xl" />
+            </Button>
+          </Link>
 
           <Button variant="ghost" size="icon">
             <FaRegHeart className="text-xl" />

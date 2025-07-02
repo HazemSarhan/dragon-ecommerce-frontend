@@ -3,6 +3,8 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import SingleProductPage from './pages/SingleProductPage';
+import CartPage from './pages/CartPage';
+import CategoryPage from './pages/CategoryPage';
 const App = () => {
   return (
     <BrowserRouter>
@@ -14,6 +16,10 @@ const App = () => {
 
         {/* Product Routes */}
         <Route path="/product/:id" element={<SingleProductPage />} />
+        <Route path="/cart" element={<CartPage />} />
+
+        {/* Category Routes */}
+        <Route path="/category/:categoryName" element={<CategoryPage />} />
       </Routes>
     </BrowserRouter>
   );

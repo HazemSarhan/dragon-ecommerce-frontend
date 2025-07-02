@@ -24,6 +24,7 @@ const CategoriesSection = () => {
               key={index}
               title={category.title}
               description={category.description}
+              href={category.href}
             />
           );
         })}

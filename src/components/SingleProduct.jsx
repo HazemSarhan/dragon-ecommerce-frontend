@@ -49,23 +49,36 @@ const SingleProduct = () => {
                   </div>
                 </div>
 
+                {/* Title And Price */}
                 <div className="right my-auto">
                   <div className="text space-y-3">
                     <h1 className="font-bold text-4xl">{product.title}</h1>
-                    <h3 className="text-xl">${product.price}</h3>
+                    <div className="price flex justify-between items-center">
+                      <h3 className="text-xl">${product.price}</h3>
+                      <h3 className="text-green-600 dark:text-green-400">
+                        In Stock
+                      </h3>
+                    </div>
                   </div>
 
+                  {/* Ratings */}
                   <div className="rating flex gap-2 my-3">
                     <span className="font-bold">{product.rating}</span>
                     <StarRating rating={product.rating} />
                   </div>
+                  <hr className="my-3 border-border" />
 
+                  {/* Features */}
                   <div className="features my-5">
                     <p className="text-lg">FREE Returns</p>
                     <p className="text-lg">All prices include VAT.</p>
+                    <hr className="my-3 border-border" />
 
+                    {/* Payment Methods */}
                     <div className="payments mt-5">
-                      <p className="text-lg">We accept all payment methods!</p>
+                      <p className="text-lg font-medium">
+                        We accept all payment methods!
+                      </p>
                       <img
                         src={payments}
                         alt="payment-methods"
@@ -73,6 +86,7 @@ const SingleProduct = () => {
                       />
                     </div>
                   </div>
+                  <hr className="my-3 border-border" />
 
                   <div className="cart">
                     <Select>

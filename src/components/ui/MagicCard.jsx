@@ -9,7 +9,7 @@ import {
 import { Link } from 'react-router-dom';
 import { GiShoppingCart } from 'react-icons/gi';
 
-const MagicCard = ({ title, description }) => {
+const MagicCard = ({ title, description, href }) => {
   return (
     <div className="relative overflow-hidden rounded-xl p-[1px] bg-transparent">
       <div className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)] z-0" />
@@ -24,7 +24,10 @@ const MagicCard = ({ title, description }) => {
             <CardDescription>{description}</CardDescription>
           </CardHeader>
           <CardContent>
-            <Link className="text-sm font-medium flex items-center gap-1 text-purple-500 dark:text-purple-300 hover:text-purple-400 transition">
+            <Link
+              to={href}
+              className="text-sm font-medium flex items-center gap-1 text-purple-500 dark:text-purple-300 hover:text-purple-400 transition"
+            >
               Shop Now
               <GiShoppingCart />
             </Link>
