@@ -116,16 +116,6 @@ const CategoryPage = () => {
             </div>
           </div>
         </div>
-
-        {/* <div>
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((product) => {
-              return <ProductCard key={product.id} product={product} />;
-            })
-          ) : (
-            <p>No products found in this category.</p>
-          )}
-        </div> */}
       </section>
       <Footer />
     </>

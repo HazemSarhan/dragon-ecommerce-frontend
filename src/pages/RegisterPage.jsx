@@ -1,6 +1,5 @@
 import Navbar from '@/components/Navbar';
-import React from 'react';
-
+import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,9 +11,37 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { useAuth } from '@/context/AuthContext';
+import axiosInstance from '@/lib/axiosInstance';
+import toast from 'react-hot-toast';
+import { ButtonLoading } from '@/components/ui/ButtonLoading';
 
 const RegisterPage = ({ className, ...props }) => {
+  const { setUser, loading, setLoading } = useAuth();
+  let navigate = useNavigate();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await axiosInstance.post('/auth/register', {
+        name,
+        email,
+        password,
+      });
+      setUser(res.data.user);
+      toast.success('Register Successful 🎉');
+      navigate('/');
+    } catch (error) {
+      toast.error(error.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <>
       <Navbar />
@@ -37,13 +64,15 @@ const RegisterPage = ({ className, ...props }) => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <form>
+                  <form onSubmit={handleRegister}>
                     <div className="flex flex-col gap-6">
                       <div className="grid gap-3">
                         <Label htmlFor="name">Name</Label>
                         <Input
                           id="name"
                           type="name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
                           placeholder="John Doe"
                           required
                         />
@@ -53,6 +82,8 @@ const RegisterPage = ({ className, ...props }) => {
                         <Input
                           id="email"
                           type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                           placeholder="example@email.com"
                           required
                         />
@@ -61,16 +92,26 @@ const RegisterPage = ({ className, ...props }) => {
                         <div className="flex items-center">
                           <Label htmlFor="password">Password</Label>
                         </div>
-                        <Input id="password" type="password" required />
+                        <Input
+                          id="password"
+                          type="password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          required
+                        />
                       </div>
                       <div className="flex flex-col gap-3">
-                        <Button type="submit" className="w-full">
-                          Login
-                        </Button>
+                        {loading ? (
+                          <ButtonLoading />
+                        ) : (
+                          <Button type="submit" className="w-full">
+                            Register
+                          </Button>
+                        )}
                       </div>
                     </div>
                     <div className="mt-4 text-center text-sm">
-                      Have an account?{' '}
+                      Have an account?
                       <Link
                         to="/login"
                         className="underline underline-offset-4"

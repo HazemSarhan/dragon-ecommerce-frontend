@@ -24,6 +24,7 @@ import {
 import { useState } from 'react';
 import { categories } from '@/data';
 import MagicButton from './ui/MagicButton';
+import { useAuth } from '@/context/AuthContext';
 
 function ListItem({ title, children, href, ...props }) {
   return (
@@ -45,6 +46,7 @@ function ListItem({ title, children, href, ...props }) {
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { theme, setTheme } = useTheme();
+  const { user, logout } = useAuth();
 
   return (
     <nav className="sticky top-0 z-50 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-md shadow-sm border-b border-border">
@@ -93,9 +95,41 @@ const Navbar = () => {
                 </NavigationMenuList>
               </NavigationMenu>
 
-              <Link to="/login">
-                <MagicButton title="My Account" />
-              </Link>
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button className="text-base" variant="outline">
+                      {user?.name}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    align="end"
+                    className="bg-white dark:bg-zinc-900 shadow-lg border border-border rounded-md"
+                  >
+                    <DropdownMenuItem>My Account</DropdownMenuItem>
+                    <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button className="text-base" variant="outline">
+                      My Account
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    align="end"
+                    className="bg-white dark:bg-zinc-900 shadow-lg border border-border rounded-md"
+                  >
+                    <Link to="/login">
+                      <DropdownMenuItem>Login</DropdownMenuItem>
+                    </Link>
+                    <Link to="/register">
+                      <DropdownMenuItem>Register</DropdownMenuItem>
+                    </Link>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
             </div>
           </div>
           {/* Icons */}

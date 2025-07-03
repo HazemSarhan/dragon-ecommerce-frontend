@@ -12,14 +12,34 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import axiosInstance from '@/lib/axiosInstance';
+import toast from 'react-hot-toast';
+import { useAuth } from '@/context/AuthContext';
+import { ButtonLoading } from '@/components/ui/ButtonLoading';
 
 const LoginPage = ({ className, ...props }) => {
+  let navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const handleLogin = (e) => {
+  const { setUser, user, loading, setLoading } = useAuth();
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(email, password);
+    setLoading(true);
+    try {
+      const res = await axiosInstance.post('/auth/login', {
+        email,
+        password,
+      });
+      const data = res.data;
+      setUser(data.user);
+      toast.success('Login Successful 🎉');
+      navigate('/');
+    } catch (error) {
+      toast.error(error.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -77,13 +97,17 @@ const LoginPage = ({ className, ...props }) => {
                         />
                       </div>
                       <div className="flex flex-col gap-3">
-                        <Button type="submit" className="w-full">
-                          Login
-                        </Button>
+                        {loading ? (
+                          <ButtonLoading />
+                        ) : (
+                          <Button type="submit" className="w-full">
+                            Login
+                          </Button>
+                        )}
                       </div>
                     </div>
                     <div className="mt-4 text-center text-sm">
-                      Don&apos;t have an account?{' '}
+                      Don&apos;t have an account?
                       <Link
                         to="/register"
                         className="underline underline-offset-4"
