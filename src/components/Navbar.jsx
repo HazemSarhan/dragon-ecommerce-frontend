@@ -211,35 +211,54 @@ const Navbar = () => {
               My Account
             </div>
 
-            <Button
-              variant="ghost"
-              className="justify-start px-3 w-full text-left"
-              onClick={() => setIsOpen(false)}
-            >
-              <Link to="/login" className="flex flex-col w-full">
-                <span className="text-base font-medium text-zinc-900 dark:text-white">
-                  Login
-                </span>
-                <span className="text-xs text-muted-foreground">
-                  Access your orders, wishlist, and more.
-                </span>
-              </Link>
-            </Button>
+            {user ? (
+              <Button
+                variant="ghost"
+                className="justify-start px-3 w-full text-left"
+                onClick={() => setIsOpen(false)}
+              >
+                <Link to="/my-account" className="flex flex-col w-full">
+                  <span className="text-base font-medium text-zinc-900 dark:text-white">
+                    My Account
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    Access your orders, wishlist, and more.
+                  </span>
+                </Link>
+              </Button>
+            ) : (
+              <>
+                <Button
+                  variant="ghost"
+                  className="justify-start px-3 w-full text-left"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Link to="/login" className="flex flex-col w-full">
+                    <span className="text-base font-medium text-zinc-900 dark:text-white">
+                      Login
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      Access your orders, wishlist, and more.
+                    </span>
+                  </Link>
+                </Button>
 
-            <Button
-              variant="ghost"
-              className="justify-start px-3 w-full text-left"
-              onClick={() => setIsOpen(false)}
-            >
-              <Link to="/register" className="flex flex-col w-full">
-                <span className="text-base font-medium text-zinc-900 dark:text-white">
-                  Register
-                </span>
-                <span className="text-xs text-muted-foreground">
-                  Create a new account to start shopping.
-                </span>
-              </Link>
-            </Button>
+                <Button
+                  variant="ghost"
+                  className="justify-start px-3 w-full text-left"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Link to="/register" className="flex flex-col w-full">
+                    <span className="text-base font-medium text-zinc-900 dark:text-white">
+                      Register
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      Create a new account to start shopping.
+                    </span>
+                  </Link>
+                </Button>
+              </>
+            )}
           </div>
         </div>
       )}
