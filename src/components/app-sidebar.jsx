@@ -25,11 +25,11 @@ const data = {
       items: [
         {
           title: 'Account Settings',
-          url: 'settings',
+          url: '/settings',
         },
         {
           title: 'My Orders',
-          url: 'orders',
+          url: '/orders',
         },
       ],
     },
