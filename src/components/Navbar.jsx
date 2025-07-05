@@ -106,7 +106,9 @@ const Navbar = () => {
                     align="end"
                     className="bg-white dark:bg-zinc-900 shadow-lg border border-border rounded-md"
                   >
-                    <DropdownMenuItem>My Account</DropdownMenuItem>
+                    <Link to="/my-account">
+                      <DropdownMenuItem>My Account</DropdownMenuItem>
+                    </Link>
                     <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

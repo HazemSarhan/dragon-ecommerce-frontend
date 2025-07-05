@@ -6,6 +6,11 @@ import SingleProductPage from './pages/SingleProductPage';
 import CartPage from './pages/CartPage';
 import CategoryPage from './pages/CategoryPage';
 import { Toaster } from 'react-hot-toast';
+import MyAccount from './pages/MyAccount';
+import ProtectedRoute from './components/ProtectedRoute';
+import AccountSettings from './pages/AccountSettings';
+import MyOrders from './pages/MyOrders';
+import MyAccountLayout from './components/MyAccountLayout';
 const App = () => {
   return (
     <>
@@ -23,6 +28,31 @@ const App = () => {
 
           {/* Category Routes */}
           <Route path="/category/:categoryName" element={<CategoryPage />} />
+
+          <Route
+            path="/my-account"
+            element={
+              <ProtectedRoute>
+                <MyAccountLayout />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <AccountSettings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <MyOrders />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </>
