@@ -1,4 +1,4 @@
-import { AppSidebar } from '@/components/app-sidebar';
+import { AdminAppSidebar } from '@/components/admin-app-sidebar';
 import {
   SidebarProvider,
   SidebarInset,
@@ -13,7 +13,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { Sun, Moon } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import {
   DropdownMenu,
@@ -21,21 +20,19 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-import { useAuth } from '@/context/AuthContext';
+import { Button } from './ui/button';
+import { Sun, Moon } from 'lucide-react';
 
-export default function Layout({ children }) {
+export default function AdminSidebarLayout({
+  children,
+  breadcrumbTitle = 'Dashboard',
+}) {
   const { setTheme } = useTheme();
-  const { user } = useAuth();
 
   return (
     <SidebarProvider>
-      {/* Sidebar */}
-      <AppSidebar />
-
-      {/* Main Content */}
+      <AdminAppSidebar />
       <SidebarInset>
-        {/* Top Header */}
         <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
           <Separator
@@ -45,11 +42,11 @@ export default function Layout({ children }) {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/account">My Account</BreadcrumbLink>
+                <BreadcrumbLink href="/admin">Admin Dashboard</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>Dashboard</BreadcrumbPage>
+                <BreadcrumbPage>{breadcrumbTitle}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -81,17 +78,8 @@ export default function Layout({ children }) {
           </div>
         </header>
 
-        <div className="flex-1 px-6 py-8">
-          <h1 className="font-medium text-xl">
-            Welcome Back, <span>{user?.name}</span> 👋🏻
-            <br />
-            <span className="text-gray-600 dark:text-gray-400">
-              Feel Free To Explore Your Dashboard!
-            </span>
-          </h1>
-        </div>
         {/* Page Body */}
-        {children}
+        <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );

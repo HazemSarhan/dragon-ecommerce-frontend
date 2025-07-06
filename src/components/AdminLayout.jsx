@@ -23,15 +23,16 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/AuthContext';
+import { AdminAppSidebar } from './admin-app-sidebar';
 
-export default function Layout({ children }) {
+export default function AdminLayout({ children }) {
   const { setTheme } = useTheme();
   const { user } = useAuth();
 
   return (
     <SidebarProvider>
       {/* Sidebar */}
-      <AppSidebar />
+      <AdminAppSidebar />
 
       {/* Main Content */}
       <SidebarInset>
@@ -45,7 +46,7 @@ export default function Layout({ children }) {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/account">My Account</BreadcrumbLink>
+                <BreadcrumbLink href="/admin">Admin Dashboard</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>

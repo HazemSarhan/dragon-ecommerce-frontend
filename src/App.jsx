@@ -11,6 +11,10 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AccountSettings from './pages/AccountSettings';
 import MyOrders from './pages/MyOrders';
 import MyAccountLayout from './components/MyAccountLayout';
+import AdminLayout from './components/AdminLayout';
+import AdminCategories from './pages/AdminCategories';
+import ProtectedAdminRoute from './components/ProtectedAdminRoute';
+import AdminProducts from './pages/AdminProducts';
 const App = () => {
   return (
     <>
@@ -51,6 +55,31 @@ const App = () => {
               <ProtectedRoute>
                 <MyOrders />
               </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedAdminRoute>
+                <AdminLayout />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path="/admin/categories"
+            element={
+              <ProtectedAdminRoute>
+                <AdminCategories />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path="/admin/products"
+            element={
+              <ProtectedAdminRoute>
+                <AdminProducts />
+              </ProtectedAdminRoute>
             }
           />
         </Routes>

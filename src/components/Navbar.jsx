@@ -21,10 +21,10 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import { useState } from 'react';
-import { categories } from '@/data';
+import { useEffect, useState } from 'react';
 import MagicButton from './ui/MagicButton';
 import { useAuth } from '@/context/AuthContext';
+import axiosInstance from '@/lib/axiosInstance';
 
 function ListItem({ title, children, href, ...props }) {
   return (
@@ -46,7 +46,21 @@ function ListItem({ title, children, href, ...props }) {
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { theme, setTheme } = useTheme();
+  const [categories, setCategories] = useState([]);
   const { user, logout } = useAuth();
+
+  const fetchCategories = async () => {
+    try {
+      const { data } = await axiosInstance.get('/category');
+      setCategories(data.categories);
+    } catch (error) {
+      console.log(error.response?.data?.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   return (
     <nav className="sticky top-0 z-50 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-md shadow-sm border-b border-border">
@@ -79,7 +93,7 @@ const Navbar = () => {
                       Categories
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
-                      <ul className="grid md:w-[480px] md:grid-cols-2">
+                      <ul className="grid md:w-[400px] md:grid-cols-2">
                         {categories.map((category) => (
                           <ListItem
                             key={category.title}
