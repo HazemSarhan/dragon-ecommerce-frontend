@@ -12,8 +12,10 @@ const SingleProductCardImage = ({ image }) => {
           <Card className={`p-6 border-0 shadow-none bg-transparent`}>
             <img
               src={image}
-              className="w-full h-auto object-cover"
+              className="object-cover"
               alt="product-image"
+              width={600}
+              height={100}
             />
           </Card>
         </div>

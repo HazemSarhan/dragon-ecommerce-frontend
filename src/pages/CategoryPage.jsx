@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { products, brands } from '@/data';
 import ProductCard from '@/components/ProductCard';
@@ -10,12 +10,29 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { IoFilter } from 'react-icons/io5';
 import { Input } from '@/components/ui/input';
 import MagicButton from '@/components/ui/MagicButton';
+import axiosInstance from '@/lib/axiosInstance';
 
 const CategoryPage = () => {
   const { categoryName } = useParams();
+  const [products, setProducts] = useState([]);
+
+  const fetchProducts = async () => {
+    try {
+      const { data } = await axiosInstance.get('/product');
+      setProducts(data.products);
+      console.log(data.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   const filteredProducts = products.filter(
-    (product) => product.category.toLowerCase() === categoryName.toLowerCase()
+    (product) =>
+      product.category.title.toLowerCase() === categoryName.toLowerCase()
   );
 
   const [selectedBrand, setSelectedBrand] = useState([]);

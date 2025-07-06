@@ -1,4 +1,3 @@
-import { bestSellingProducts } from '@/data';
 import React, { useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -11,8 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import MagicButton from './ui/MagicButton';
-
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -23,8 +20,13 @@ import { PiStarFourFill } from 'react-icons/pi';
 import { IoIosCart } from 'react-icons/io';
 import StarRating from './ui/StarRating';
 import { Link } from 'react-router';
+import axiosInstance from '@/lib/axiosInstance';
+import { SkeletonCard } from './SkeletonCard';
 
 const BestSellingSection = () => {
+  const [bestSellingProducts, setBestSellingProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const swiperRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -34,6 +36,21 @@ const BestSellingSection = () => {
         swiperRef.current.swiper.update();
       }, 100);
     }
+  }, []);
+
+  const fetchBestSellingProducts = async () => {
+    try {
+      const { data } = await axiosInstance.get('/product/bestSelling');
+      setBestSellingProducts(data?.products);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBestSellingProducts();
   }, []);
 
   const handleSlideChange = (swiper) => {
@@ -75,40 +92,50 @@ const BestSellingSection = () => {
         }}
         className="testimonial-swiper"
       >
-        {bestSellingProducts.map((product) => (
-          <SwiperSlide key={product.id} className="w-[280px]">
-            <Card className="h-full">
-              <Link to="/product/:id">
-                <CardHeader>
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="w-full h-50 object-contain"
-                  />
-                  <CardTitle className="text-base">{product.title}</CardTitle>
-                  <CardDescription className="text-sm">
-                    ${product.price}
-                    <div className="reviews my-2 flex gap-2 text-sm text-white font-bold">
-                      <span>{product.rating.toFixed(1)}</span>
-                      <StarRating
-                        className="text-white"
-                        rating={product.rating}
+        {loading
+          ? [...Array(3)].map((_, i) => (
+              <SwiperSlide key={i}>
+                <SkeletonCard />
+              </SwiperSlide>
+            ))
+          : bestSellingProducts.map((product) => (
+              <SwiperSlide key={product.id} className="w-[280px]">
+                <Card className="h-full">
+                  <Link to={`/product/${product.id}`}>
+                    <CardHeader>
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-50 object-contain"
                       />
-                    </div>
-                  </CardDescription>
-                </CardHeader>
-              </Link>
-              <CardContent>
-                <Button className="w-full">
-                  Add To Cart
-                  <span>
-                    <IoIosCart className="text-lg" />
-                  </span>
-                </Button>
-              </CardContent>
-            </Card>
-          </SwiperSlide>
-        ))}
+                      <CardTitle className="text-base">
+                        {product.name}
+                      </CardTitle>
+                      <CardDescription className="text-sm">
+                        ${product.price}
+                        <div className="reviews my-2 flex gap-2 text-sm text-white font-bold">
+                          <span className="text-black dark:text-white">
+                            {(product.rating ?? 0).toFixed(1)}
+                          </span>
+                          <StarRating
+                            className="text-white"
+                            rating={product.rating}
+                          />
+                        </div>
+                      </CardDescription>
+                    </CardHeader>
+                  </Link>
+                  <CardContent>
+                    <Button className="w-full">
+                      Add To Cart
+                      <span>
+                        <IoIosCart className="text-lg" />
+                      </span>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </SwiperSlide>
+            ))}
       </Swiper>
 
       <div className="flex justify-center items-center gap-4 pt-10">

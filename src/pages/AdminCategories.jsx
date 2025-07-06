@@ -96,7 +96,12 @@ export default function AdminCategories() {
       setDescription('');
       setHref('');
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Something went wrong');
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        console.error(error);
+        toast.error('Something went wrong');
+      }
     } finally {
       setLoading(false);
     }

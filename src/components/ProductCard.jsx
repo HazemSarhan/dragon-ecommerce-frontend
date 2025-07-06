@@ -16,8 +16,8 @@ const ProductCard = ({ product }) => {
       <Card>
         <Link to="/product/:id">
           <CardHeader>
-            <img src={product.image} alt={product.title} className="w-75" />
-            <CardTitle className="text-base mt-5">{product.title}</CardTitle>
+            <img src={product.image} alt={product.name} className="w-75" />
+            <CardTitle className="text-base mt-5">{product.name}</CardTitle>
             <CardDescription>${product.price}</CardDescription>
           </CardHeader>
         </Link>
