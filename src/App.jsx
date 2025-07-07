@@ -15,6 +15,7 @@ import AdminLayout from './components/AdminLayout';
 import AdminCategories from './pages/AdminCategories';
 import ProtectedAdminRoute from './components/ProtectedAdminRoute';
 import AdminProducts from './pages/AdminProducts';
+import NotFoundPage from './pages/NotFoundPage';
 const App = () => {
   return (
     <>
@@ -82,6 +83,8 @@ const App = () => {
               </ProtectedAdminRoute>
             }
           />
+
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </>

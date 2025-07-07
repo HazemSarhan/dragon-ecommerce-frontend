@@ -10,66 +10,39 @@ import toast from 'react-hot-toast';
 import axiosInstance from '@/lib/axiosInstance';
 import { useCart } from '@/context/CartContext';
 import { SkeletonItem, SkeletonSummary } from '@/components/CartItemsSkeleton';
+import { redirect, useNavigate } from 'react-router';
 
 const CartPage = () => {
-  const [cartItems, setCartItems] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const {
+    cart: cartItems,
+    total,
+    loading,
+    updateCartItems,
+    deleteCartItem,
+    fetchCart,
+    clearCart,
+  } = useCart();
 
-  const fetchCartItems = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axiosInstance.get('/cart');
-      setCartItems(data?.cartItems || []);
-      setTotal(data?.total || 0);
-    } catch (error) {
-      toast.error('Error fetching cart items');
-    } finally {
-      setLoading(false);
+  const navigate = useNavigate();
+
+  const handleQuantityUpdate = async (productId, newVal, currentVal) => {
+    if (newVal < 1) {
+      await deleteCartItem(productId);
+      toast.success('Item removed from cart');
+    } else {
+      const action = newVal > currentVal ? 'increase' : 'decrease';
+      await updateCartItems(productId, action);
     }
   };
 
-  const handleQuantityUpdate = async (productId, newVal) => {
+  const checkOut = async () => {
     try {
-      if (newVal < 1) {
-        await axiosInstance.delete('/cart/deleteItem', {
-          data: { productId },
-        });
-        toast.success('Item removed from cart');
-      } else {
-        const item = cartItems.find((i) => i.product.id === productId);
-        if (!item) return;
-
-        const action = newVal > item.quantity ? 'increase' : 'decrease';
-
-        await axiosInstance.patch('/cart', {
-          productId,
-          action,
-        });
-      }
-      const { data } = await axiosInstance.get('/cart');
-      setCartItems(data?.cartItems || []);
-      setTotal(data?.total || 0);
-    } catch (error) {
-      toast.error('Error updating cart');
-    }
-  };
-
-  const clearCart = async () => {
-    try {
-      const res = await axiosInstance.delete('/cart');
-      toast.success(res.data.msg);
-      await fetchCartItems();
+      const { data } = await axiosInstance.post('/order');
+      window.location.href = data.url;
     } catch (error) {
       toast.error(error.response?.data?.message);
     }
   };
-
-  useEffect(() => {
-    fetchCartItems();
-  }, []);
-
-  console.log(cartItems);
 
   return (
     <>
@@ -109,14 +82,18 @@ const CartPage = () => {
                           <Counter
                             number={item.quantity}
                             setNumber={(newVal) =>
-                              handleQuantityUpdate(item.product.id, newVal)
+                              handleQuantityUpdate(
+                                item.product.id,
+                                newVal,
+                                item.quantity
+                              )
                             }
                           />
                         </div>
                       </div>
                     </Card>
                   ))}
-              {cartItems.length === 0 ? (
+              {loading ? (
                 <p className="text-xl text-center text-muted-foreground my-5">
                   🛍️ Oops! Looks like your cart is empty. Time to fill it with
                   some tech magic!
@@ -177,7 +154,10 @@ const CartPage = () => {
                   <hr className="my-4 border-border" />
 
                   <div className="checkout">
-                    <MagicButton title="Continue to checkout" />
+                    <MagicButton
+                      title="Continue to checkout"
+                      handleClick={checkOut}
+                    />
                     <p className="text-xs text-gray-500 text-center mt-3">
                       🔒 Secure checkout – Your payment information is safe.
                     </p>

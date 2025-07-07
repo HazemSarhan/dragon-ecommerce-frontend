@@ -31,9 +31,9 @@ function reducer(state, action) {
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const fetchCart = async () => {
+  const fetchCart = async (withLoading = true) => {
     try {
-      dispatch({ type: 'FETCH_START' });
+      if (withLoading) dispatch({ type: 'FETCH_START' });
       const res = await axiosInstance.get('/cart');
       dispatch({ type: 'FETCH_SUCCESS', payload: res.data });
     } catch (error) {
@@ -54,7 +54,7 @@ export const CartProvider = ({ children }) => {
   const updateCartItems = async (productId, action) => {
     try {
       await axiosInstance.patch('/cart', { productId, action });
-      fetchCart();
+      await fetchCart(false);
     } catch (error) {
       toast.error('Failed to update cart');
     }
@@ -65,7 +65,7 @@ export const CartProvider = ({ children }) => {
       await axiosInstance.delete('/cart/deleteItem', {
         data: { productId },
       });
-      fetchCart();
+      await fetchCart(false);
     } catch (error) {
       toast.error('Failed to delete item');
     }
@@ -76,7 +76,7 @@ export const CartProvider = ({ children }) => {
       await axiosInstance.delete('/cart');
       dispatch({ type: 'CLEAR_CART' });
       toast.success('Cart cleared');
-      await fetchCart();
+      await fetchCart(false);
     } catch (error) {
       toast.error('Failed to clear cart');
     }
