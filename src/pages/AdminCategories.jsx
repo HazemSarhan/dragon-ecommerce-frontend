@@ -45,11 +45,23 @@ import { useAuth } from '@/context/AuthContext';
 import axiosInstance from '@/lib/axiosInstance';
 import toast from 'react-hot-toast';
 import { ButtonLoading } from '@/components/ui/ButtonLoading';
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import AdminDataTableSkeleton from '@/components/AdminDataTableSkeleton';
 
 export default function AdminCategories() {
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [editMode, setEditMode] = React.useState(false);
+  const [editSheetOpen, setEditSheetOpen] = React.useState(false);
   const [selectedCategory, setSelectedCategory] = React.useState(false);
   const [title, setTitle] = React.useState('');
   const [description, setDescription] = React.useState('');
@@ -57,11 +69,14 @@ export default function AdminCategories() {
   const [open, setOpen] = React.useState(false);
 
   const fetchCategories = async () => {
+    setLoading(true);
     try {
       const { data } = await axiosInstance.get('/category');
       setData(data?.categories);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -91,6 +106,7 @@ export default function AdminCategories() {
       await fetchCategories();
       setOpen(false);
       setEditMode(false);
+      setEditSheetOpen(false);
       setSelectedCategory(null);
       setTitle('');
       setDescription('');
@@ -204,11 +220,11 @@ export default function AdminCategories() {
               <DropdownMenuItem
                 onClick={() => {
                   setSelectedCategory(category);
-                  setEditMode(true);
-                  setOpen(true);
                   setTitle(category.title);
                   setDescription(category.description);
                   setHref(category.href);
+                  setEditMode(true);
+                  setEditSheetOpen(true);
                 }}
               >
                 Edit
@@ -333,6 +349,57 @@ export default function AdminCategories() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+
+        <Sheet open={editSheetOpen} onOpenChange={setEditSheetOpen}>
+          <SheetContent>
+            <form onSubmit={handleSubmit}>
+              <SheetHeader>
+                <SheetTitle>Edit Category</SheetTitle>
+                <SheetDescription>
+                  Edit category. Click save when done.
+                </SheetDescription>
+              </SheetHeader>
+
+              <div className="grid gap-4 py-4 px-6">
+                <div className="grid gap-3">
+                  <Label htmlFor="title">Title</Label>
+                  <Input
+                    id="title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </div>
+                <div className="grid gap-3">
+                  <Label htmlFor="description">Description</Label>
+                  <Input
+                    id="description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                </div>
+                <div className="grid gap-3">
+                  <Label htmlFor="href">Location</Label>
+                  <Input
+                    id="href"
+                    value={href}
+                    onChange={(e) => setHref(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <SheetFooter className="space-y-2">
+                <SheetClose asChild>
+                  <Button variant="outline">Cancel</Button>
+                </SheetClose>
+                {loading ? (
+                  <ButtonLoading />
+                ) : (
+                  <Button type="submit">Save changes</Button>
+                )}
+              </SheetFooter>
+            </form>
+          </SheetContent>
+        </Sheet>
         <div className="rounded-md border">
           <Table>
             <TableHeader>
@@ -352,7 +419,9 @@ export default function AdminCategories() {
               ))}
             </TableHeader>
             <TableBody>
-              {table.getRowModel().rows?.length ? (
+              {loading ? (
+                <AdminDataTableSkeleton />
+              ) : table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}

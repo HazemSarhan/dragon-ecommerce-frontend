@@ -45,11 +45,23 @@ import { useAuth } from '@/context/AuthContext';
 import axiosInstance from '@/lib/axiosInstance';
 import toast from 'react-hot-toast';
 import { ButtonLoading } from '@/components/ui/ButtonLoading';
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import AdminDataTableSkeleton from '@/components/AdminDataTableSkeleton';
 
 export default function AdminProducts() {
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [editMode, setEditMode] = React.useState(false);
+  const [editSheetOpen, setEditSheetOpen] = React.useState(false);
   const [name, setName] = React.useState('');
   const [price, setPrice] = React.useState('');
   const [image, setImage] = React.useState(null);
@@ -60,11 +72,14 @@ export default function AdminProducts() {
   const [open, setOpen] = React.useState(false);
 
   const fetchProducts = async () => {
+    setLoading(true);
     try {
       const { data } = await axiosInstance.get('/product');
       setData(data?.products);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -104,6 +119,7 @@ export default function AdminProducts() {
       await fetchProducts();
       setOpen(false);
       setEditMode(false);
+      setEditSheetOpen(false);
       setSelectedProduct(null);
       setName('');
       setPrice('');
@@ -237,7 +253,7 @@ export default function AdminProducts() {
                 onClick={() => {
                   setSelectedProduct(product);
                   setEditMode(true);
-                  setOpen(true);
+                  setEditSheetOpen(true);
                   setName(product.name);
                   setPrice(product.price);
                   setCategoryId(product.categoryId);
@@ -398,6 +414,96 @@ export default function AdminProducts() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+
+        <Sheet open={editSheetOpen} onOpenChange={setEditSheetOpen}>
+          <SheetContent>
+            <form onSubmit={handleSubmit}>
+              <SheetHeader>
+                <SheetTitle>Edit Product</SheetTitle>
+                <SheetDescription>
+                  Make changes to the product below.
+                </SheetDescription>
+              </SheetHeader>
+
+              <div className="grid gap-4 py-4 px-3">
+                <div className="grid gap-3">
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+                <div className="grid gap-3">
+                  <Label htmlFor="price">Price</Label>
+                  <Input
+                    id="price"
+                    type="number"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                  />
+                </div>
+                <div className="grid gap-3">
+                  <Label htmlFor="image">Image</Label>
+                  <Input
+                    id="image"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setImage(e.target.files[0])}
+                  />
+                  {editMode && selectedProduct?.image && (
+                    <div className="mt-2">
+                      <p className="text-sm text-muted-foreground mb-1">
+                        Current Image:
+                      </p>
+                      <img
+                        src={selectedProduct.image}
+                        alt="Current Product"
+                        className="w-40 h-40 object-cover rounded border my-3"
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className="grid gap-3">
+                  <Label htmlFor="category">Category</Label>
+                  <select
+                    id="category"
+                    value={categoryId}
+                    onChange={(e) => setCategoryId(e.target.value)}
+                    className="border px-4 py-2 rounded"
+                  >
+                    <option value="">Select category</option>
+                    {categories.map((cat) => (
+                      <option key={cat.id} value={cat.id}>
+                        {cat.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="flex items-center gap-2 mt-2">
+                  <Checkbox
+                    id="bestSelling"
+                    checked={bestSelling}
+                    onCheckedChange={() => setBestSelling((prev) => !prev)}
+                  />
+                  <Label htmlFor="bestSelling">Best Selling</Label>
+                </div>
+              </div>
+
+              <SheetFooter className="space-y-2">
+                <SheetClose asChild>
+                  <Button variant="outline">Cancel</Button>
+                </SheetClose>
+                {loading ? (
+                  <ButtonLoading />
+                ) : (
+                  <Button type="submit">Save changes</Button>
+                )}
+              </SheetFooter>
+            </form>
+          </SheetContent>
+        </Sheet>
+
         <div className="rounded-md border">
           <Table>
             <TableHeader>
@@ -417,7 +523,9 @@ export default function AdminProducts() {
               ))}
             </TableHeader>
             <TableBody>
-              {table.getRowModel().rows?.length ? (
+              {loading ? (
+                <AdminDataTableSkeleton />
+              ) : table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}

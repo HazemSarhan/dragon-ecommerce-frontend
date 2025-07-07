@@ -11,10 +11,12 @@ import { IoFilter } from 'react-icons/io5';
 import { Input } from '@/components/ui/input';
 import MagicButton from '@/components/ui/MagicButton';
 import axiosInstance from '@/lib/axiosInstance';
+import ProductCardSkeleton from '@/components/ProductCardSkeleton';
 
 const CategoryPage = () => {
   const { categoryName } = useParams();
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchProducts = async () => {
     try {
@@ -23,6 +25,8 @@ const CategoryPage = () => {
       console.log(data.products);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,26 +76,6 @@ const CategoryPage = () => {
                 </div>
                 <hr className="my-3" />
 
-                {/* Filter Brand */}
-                <div className="filter flex flex-col gap-3">
-                  <h2 className="font-medium">Filter By Brand:</h2>
-                  {brands.map((item) => {
-                    return (
-                      <div key={item.id} className="flex items-center gap-3">
-                        <Checkbox
-                          id={`brand-${item.id}`}
-                          checked={selectedBrand.includes(item.brand)}
-                          onCheckedChange={() => handleToggle(item.brand)}
-                        />
-                        <label className="text-sm" htmlFor={`brand-${item.id}`}>
-                          {item.brand}
-                        </label>
-                      </div>
-                    );
-                  })}
-                </div>
-                <hr className="my-3" />
-
                 {/* Filter Price */}
                 <div className="filter flex flex-col gap-3">
                   <h2 className="font-medium">Price Filter:</h2>
@@ -123,12 +107,19 @@ const CategoryPage = () => {
               </div>
             </div>
             <div className="right w-full md:flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-5 border p-5">
-              {filteredProducts.length > 0 ? (
-                filteredProducts.map((product) => {
-                  return <ProductCard key={product.id} product={product} />;
-                })
+              {loading ? (
+                Array.from({ length: 6 }).map((_, i) => (
+                  <ProductCardSkeleton key={i} />
+                ))
+              ) : filteredProducts.length > 0 ? (
+                filteredProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))
               ) : (
-                <p>No products found in this category.</p>
+                <p className="text-nowrap">
+                  Sorry, No products found in this category. Make sure you
+                  comeback later!
+                </p>
               )}
             </div>
           </div>

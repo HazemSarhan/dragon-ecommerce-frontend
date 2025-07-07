@@ -19,14 +19,18 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { PiStarFourFill } from 'react-icons/pi';
 import { IoIosCart } from 'react-icons/io';
 import StarRating from './ui/StarRating';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import axiosInstance from '@/lib/axiosInstance';
 import { SkeletonCard } from './SkeletonCard';
+import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
 
 const BestSellingSection = () => {
   const [bestSellingProducts, setBestSellingProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const { user } = useAuth();
+  let navigate = useNavigate();
+  const { addToCart } = useCart();
   const swiperRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -70,7 +74,7 @@ const BestSellingSection = () => {
         ref={swiperRef}
         onSlideChange={handleSlideChange}
         spaceBetween={30}
-        modules={[Pagination, Autoplay, Navigation]}
+        modules={[Pagination, Navigation]}
         autoplay={{
           delay: 2500,
           disableOnInteraction: false,
@@ -126,7 +130,16 @@ const BestSellingSection = () => {
                     </CardHeader>
                   </Link>
                   <CardContent>
-                    <Button className="w-full">
+                    <Button
+                      className="w-full cursor-pointer"
+                      onClick={() => {
+                        if (!user) {
+                          navigate('/login');
+                          return;
+                        }
+                        addToCart(product.id);
+                      }}
+                    >
                       Add To Cart
                       <span>
                         <IoIosCart className="text-lg" />
