@@ -16,6 +16,8 @@ import AdminCategories from './pages/AdminCategories';
 import ProtectedAdminRoute from './components/ProtectedAdminRoute';
 import AdminProducts from './pages/AdminProducts';
 import NotFoundPage from './pages/NotFoundPage';
+import AdminAllOrders from './pages/AdminAllOrders';
+import AdminUsers from './pages/AdminUsers';
 const App = () => {
   return (
     <>
@@ -80,6 +82,22 @@ const App = () => {
             element={
               <ProtectedAdminRoute>
                 <AdminProducts />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path="/admin/orders"
+            element={
+              <ProtectedAdminRoute>
+                <AdminAllOrders />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path="/admin/users"
+            element={
+              <ProtectedAdminRoute>
+                <AdminUsers />
               </ProtectedAdminRoute>
             }
           />

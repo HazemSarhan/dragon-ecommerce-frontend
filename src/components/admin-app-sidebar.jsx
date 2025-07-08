@@ -22,12 +22,20 @@ const data = {
       url: '#',
       items: [
         {
+          title: 'Users',
+          url: '/admin/users',
+        },
+        {
           title: 'Categories',
           url: '/admin/categories',
         },
         {
           title: 'Products',
           url: '/admin/products',
+        },
+        {
+          title: 'Orders',
+          url: '/admin/orders',
         },
       ],
     },

@@ -22,6 +22,8 @@ export default function AccountSettings() {
   const { user, setLoading, loading, setUser } = useAuth();
   const [name, setName] = useState(user?.name || '');
   const [email, setEmail] = useState(user?.email || '');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
 
   const handleChangeInfo = async (e) => {
     e.preventDefault();
@@ -36,6 +38,22 @@ export default function AccountSettings() {
       setUser((prev) => ({ ...prev, name, email }));
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to update profile.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await axiosInstance.patch('/user/updatePassword', {
+        currentPassword,
+        newPassword,
+      });
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.error(error.response?.data?.message);
     } finally {
       setLoading(false);
     }
@@ -94,28 +112,42 @@ export default function AccountSettings() {
               </form>
             </TabsContent>
             <TabsContent value="password">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Password</CardTitle>
-                  <CardDescription>
-                    Change your password here. After saving, you&apos;ll be
-                    logged out.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="grid gap-6">
-                  <div className="grid gap-3">
-                    <Label htmlFor="tabs-demo-current">Current password</Label>
-                    <Input id="tabs-demo-current" type="password" />
-                  </div>
-                  <div className="grid gap-3">
-                    <Label htmlFor="tabs-demo-new">New password</Label>
-                    <Input id="tabs-demo-new" type="password" />
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Button>Save password</Button>
-                </CardFooter>
-              </Card>
+              <form onSubmit={handleChangePassword}>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Password</CardTitle>
+                    <CardDescription>
+                      Change your password here. After saving, you&apos;ll be
+                      logged out.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="grid gap-6">
+                    <div className="grid gap-3">
+                      <Label htmlFor="tabs-demo-current">
+                        Current password
+                      </Label>
+                      <Input
+                        id="tabs-demo-current"
+                        type="password"
+                        value={currentPassword}
+                        onChange={(e) => setCurrentPassword(e.target.value)}
+                      />
+                    </div>
+                    <div className="grid gap-3">
+                      <Label htmlFor="tabs-demo-new">New password</Label>
+                      <Input
+                        id="tabs-demo-new"
+                        type="password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                      />
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <Button>Save password</Button>
+                  </CardFooter>
+                </Card>
+              </form>
             </TabsContent>
           </Tabs>
         </div>
