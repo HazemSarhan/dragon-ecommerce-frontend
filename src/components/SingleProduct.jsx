@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Card, CardHeader } from '@/components/ui/card';
 import StarRating from '@/components/ui/StarRating';
 import payments from '@/assets/payment-methods.avif';
@@ -18,6 +18,8 @@ import axiosInstance from '@/lib/axiosInstance';
 import { Spinner } from './ui/Spinner';
 import toast from 'react-hot-toast';
 import { ButtonLoading } from './ui/ButtonLoading';
+import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -27,6 +29,9 @@ const SingleProduct = () => {
   const [hover, setHover] = useState(0);
   const [comment, setComment] = useState('');
   const [notFound, setNotFound] = useState(false);
+  const { addToCart } = useCart();
+  const { user } = useAuth();
+  let navigate = useNavigate();
 
   const fetchSignleProduct = async () => {
     try {
@@ -49,6 +54,15 @@ const SingleProduct = () => {
   useEffect(() => {
     fetchSignleProduct();
   }, [id]);
+
+  const handleAddToCart = () => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
+    addToCart(singleProduct.id);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -146,22 +160,10 @@ const SingleProduct = () => {
                 <hr className="my-3 border-border" />
 
                 <div className="cart">
-                  <Select>
-                    <SelectTrigger
-                      className={`w-full border shadow-md p-5 rounded-lg mb-5`}
-                    >
-                      <SelectValue placeholder="Quantity" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1">1</SelectItem>
-                      <SelectItem value="2">2</SelectItem>
-                      <SelectItem value="3">3</SelectItem>
-                      <SelectItem value="4">4</SelectItem>
-                      <SelectItem value="5">5</SelectItem>
-                    </SelectContent>
-                  </Select>
-
-                  <MagicButton title="Add to cart" />
+                  <MagicButton
+                    title="Add to cart"
+                    handleClick={handleAddToCart}
+                  />
                   <Button className={`w-full my-5 text-md px-6 py-5 font-bold`}>
                     Buy Now
                   </Button>

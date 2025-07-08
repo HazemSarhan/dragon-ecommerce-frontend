@@ -23,24 +23,27 @@ const CompanyLogos = () => {
     company9,
     company10,
   ];
-  return (
-    <section className="w-full overflow-hidden container mx-auto pb-8 flex sm:flex-row flex-col sm:items-center items-start">
-      <h2 className="w-[300px] shrink-0 px-5 border-l-4 border-purple-500 bg-white dark:bg-black py-2 z-10 sm:text-base text-xl font-semibold text-left">
-        Our Partners <br />
-        and Companies We Trust
-      </h2>
 
-      <div className="flex animate-marquee whitespace-nowrap py-10 md:py-0">
-        {logos.map((logo, index) => {
-          return (
-            <img
-              key={index}
-              src={logo}
-              alt="company logo"
-              className="mx-12 h-25 w-25 object-contain grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all"
-            />
-          );
-        })}
+  return (
+    <section className="w-full overflow-hidden container mx-auto pb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center items-start">
+        <h2 className="w-[300px] shrink-0 px-5 border-l-4 border-purple-500 bg-white dark:bg-zinc-950 py-2 z-10 sm:text-base text-xl font-semibold text-left">
+          Our Partners <br />
+          and Companies We Trust
+        </h2>
+
+        <div className="relative w-full overflow-hidden">
+          <div className="flex animate-marquee whitespace-nowrap w-max">
+            {[...logos, ...logos, ...logos].map((logo, index) => (
+              <img
+                key={index}
+                src={logo}
+                alt="company logo"
+                className="mx-12 h-20 w-28 object-contain grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all"
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

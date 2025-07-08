@@ -93,18 +93,18 @@ const CartPage = () => {
                       </div>
                     </Card>
                   ))}
-              {loading ? (
-                <p className="text-xl text-center text-muted-foreground my-5">
-                  🛍️ Oops! Looks like your cart is empty. Time to fill it with
-                  some tech magic!
-                </p>
-              ) : (
+              {cartItems.length > 0 ? (
                 <Button
                   onClick={clearCart}
                   className="px-6 font-bold text-base"
                 >
                   Clear Cart
                 </Button>
+              ) : (
+                <p className="text-xl text-center text-muted-foreground my-5">
+                  🛍️ Oops! Looks like your cart is empty. Time to fill it with
+                  some tech magic!
+                </p>
               )}
             </div>
 

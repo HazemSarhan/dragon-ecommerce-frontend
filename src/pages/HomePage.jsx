@@ -8,6 +8,7 @@ import BestSellingSection from '@/components/BestSellingSection';
 import FeaturesSection from '@/components/FeaturesSection';
 import Testimonials from '@/components/Testimonials';
 import Footer from '@/components/Footer';
+import FooterUI from '@/components/FooterUI';
 
 const HomePage = () => {
   return (
@@ -20,7 +21,8 @@ const HomePage = () => {
       <BestSellingSection />
       <FeaturesSection />
       <Testimonials />
-      <Footer />
+      {/* <Footer /> */}
+      <FooterUI />
     </div>
   );
 };
