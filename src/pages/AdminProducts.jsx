@@ -205,9 +205,7 @@ export default function AdminProducts() {
       header: 'Category',
       cell: ({ row }) => {
         const categoryTitle = row.original.category?.title || 'Unknown';
-        return (
-          <div className="text-sm text-muted-foreground">{categoryTitle}</div>
-        );
+        return <div className="text-sm font-medium">{categoryTitle}</div>;
       },
     },
     {
@@ -218,6 +216,19 @@ export default function AdminProducts() {
           {row.getValue('price')}
         </div>
       ),
+    },
+    {
+      accessorKey: 'reviews',
+      header: 'Reviews',
+      cell: ({ row }) => {
+        const avg = row.original.averageRating;
+        const count = row.original.numOfReviews;
+        return (
+          <div className="text-sm text-muted-foreground">
+            {avg} ({count})
+          </div>
+        );
+      },
     },
     {
       accessorKey: 'bestSelling',

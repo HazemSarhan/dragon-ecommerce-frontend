@@ -119,11 +119,11 @@ const BestSellingSection = () => {
                         ${product.price}
                         <div className="reviews my-2 flex gap-2 text-sm text-white font-bold">
                           <span className="text-black dark:text-white">
-                            {(product.rating ?? 0).toFixed(1)}
+                            ({product.numOfReviews ?? 0})
                           </span>
                           <StarRating
                             className="text-white"
-                            rating={product.rating}
+                            rating={product.averageRating}
                           />
                         </div>
                       </CardDescription>

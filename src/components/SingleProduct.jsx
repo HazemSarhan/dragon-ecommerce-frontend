@@ -16,10 +16,12 @@ import {
 import { FaStar } from 'react-icons/fa';
 import axiosInstance from '@/lib/axiosInstance';
 import { Spinner } from './ui/Spinner';
+import toast from 'react-hot-toast';
+import { ButtonLoading } from './ui/ButtonLoading';
 
 const SingleProduct = () => {
   const { id } = useParams();
-
+  const [loading, setLoading] = useState(false);
   const [singleProduct, setSingleProduct] = useState(null);
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
@@ -48,10 +50,25 @@ const SingleProduct = () => {
     fetchSignleProduct();
   }, [id]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitted rating:', rating);
-    console.log('Submitted comment:', comment);
+
+    try {
+      setLoading(true);
+      const response = await axiosInstance.post('/review', {
+        rating,
+        comment,
+        productId: id,
+      });
+      toast.success(response.data.message);
+      setRating(0);
+      setComment('');
+      fetchSignleProduct();
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to submit review');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -100,9 +117,11 @@ const SingleProduct = () => {
                 </div>
 
                 {/* Ratings */}
-                <div className="rating flex gap-2 my-3">
-                  <span className="font-bold">{singleProduct.rating || 0}</span>
-                  <StarRating rating={singleProduct.rating} />
+                <div className="rating flex gap-2 my-3 items-center">
+                  <span className="font-bold">
+                    ({singleProduct.numOfReviews || 0})
+                  </span>
+                  <StarRating rating={singleProduct.averageRating} />
                 </div>
                 <hr className="my-3 border-border" />
 
@@ -153,6 +172,93 @@ const SingleProduct = () => {
             <hr className="my-5" />
 
             {/* Reviews Section */}
+            <form onSubmit={handleSubmit} className="mt-6 space-y-4 max-w-xl">
+              <h2 className="text-2xl font-bold">Write a Review</h2>
+
+              {/* Rating Stars */}
+              <div className="flex items-center gap-1">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    type="button"
+                    key={star}
+                    onClick={() => setRating(star)}
+                    onMouseEnter={() => setHover(star)}
+                    onMouseLeave={() => setHover(0)}
+                  >
+                    <FaStar
+                      size={24}
+                      className={`cursor-pointer ${
+                        star <= (hover || rating)
+                          ? 'text-yellow-400'
+                          : 'text-gray-300'
+                      }`}
+                    />
+                  </button>
+                ))}
+              </div>
+
+              {/* Comment textarea */}
+              <textarea
+                className="w-full p-3 border rounded-md text-sm"
+                placeholder="Write your review..."
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                rows={5}
+                required
+              />
+
+              {loading ? (
+                <ButtonLoading />
+              ) : (
+                <Button type="submit" className="w-full">
+                  Submit Review
+                </Button>
+              )}
+            </form>
+
+            <div className="mt-8">
+              {singleProduct.reviews?.length > 0 ? (
+                <div className="mt-10 space-y-6">
+                  <h2 className="text-2xl font-bold">Customer Reviews</h2>
+
+                  {singleProduct.reviews.map((review) => (
+                    <div
+                      key={review.id}
+                      className="border border-border p-4 rounded-md"
+                    >
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-base font-medium">
+                          {review.user.name}
+                        </span>
+                        <span className="text-sm text-muted-foreground">
+                          {new Date(review.createdAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <div className="flex items-center mb-2">
+                        {[...Array(5)].map((_, index) => (
+                          <FaStar
+                            key={index}
+                            size={16}
+                            className={
+                              index < review.rating
+                                ? 'text-yellow-400'
+                                : 'text-gray-300'
+                            }
+                          />
+                        ))}
+                      </div>
+                      <p className="text-base text-gray-700 dark:text-gray-300">
+                        {review.comment}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-700 dark:text-gray-400">
+                  No reviews yet..
+                </p>
+              )}
+            </div>
           </>
         </section>
       ) : (

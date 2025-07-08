@@ -26,6 +26,7 @@ import MagicButton from './ui/MagicButton';
 import { useAuth } from '@/context/AuthContext';
 import axiosInstance from '@/lib/axiosInstance';
 import { useCart } from '@/context/CartContext';
+import toast from 'react-hot-toast';
 
 function ListItem({ title, children, href, ...props }) {
   return (
@@ -50,6 +51,10 @@ const Navbar = () => {
   const [categories, setCategories] = useState([]);
   const { user, logout } = useAuth();
   const { cart } = useCart();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchOpen, setSearchOpen] = useState(false);
+
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const fetchCategories = async () => {
@@ -58,6 +63,25 @@ const Navbar = () => {
       setCategories(data.categories);
     } catch (error) {
       console.log(error.response?.data?.message);
+    }
+  };
+
+  const handleSearch = async (value) => {
+    setSearchTerm(value);
+    if (value.trim() === '') {
+      setSearchResults([]);
+      setSearchOpen(false);
+      return;
+    }
+
+    try {
+      const { data } = await axiosInstance.get(`/product/search?name=${value}`);
+      setSearchResults(data.products);
+      setSearchOpen(true);
+    } catch (error) {
+      setSearchResults([]);
+      setSearchOpen(true);
+      toast.error(error.reponse.data);
     }
   };
 
@@ -79,10 +103,49 @@ const Navbar = () => {
         <div className="hidden lg:block w-full max-w-md relative">
           <input
             type="search"
+            value={searchTerm}
+            onChange={(e) => handleSearch(e.target.value)}
             placeholder="Search products..."
             className="w-full pl-10 pr-4 py-2 rounded-md bg-zinc-100 dark:bg-zinc-800 text-sm placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-purple-600"
           />
           <IoIosSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-purple-700 dark:text-purple-300 text-lg" />
+
+          {/* Search Dropdown */}
+          {searchOpen && (
+            <div className="absolute top-full mt-2 left-0 right-0 bg-white dark:bg-zinc-900 border border-border rounded-md shadow-md z-50">
+              {searchResults.length > 0 ? (
+                searchResults.map((product) => (
+                  <Link
+                    key={product.id}
+                    to={`/product/${product.id}`}
+                    className="flex items-center gap-3 px-4 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                    onClick={() => {
+                      setSearchTerm('');
+                      setSearchOpen(false);
+                    }}
+                  >
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-10 h-10 object-contain"
+                    />
+                    <div className="flex flex-col">
+                      <span className="text-sm font-medium">
+                        {product.name}
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        ${product.price.toFixed(2)}
+                      </span>
+                    </div>
+                  </Link>
+                ))
+              ) : (
+                <div className="px-4 py-3 text-sm text-muted-foreground">
+                  No products found
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Nav Items */}
