@@ -8,7 +8,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-<img src="https://i.imgur.com/dPAUev4.png" width="35" />
+<img src="https://i.imgur.com/dPAUev4.png" width="100" />
 
 <h3 align="center">[DRAG0N E-COMMERCE PC STORE]</h3>
 
