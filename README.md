@@ -15,7 +15,7 @@
   <p align="center">
 A full-featured modern e-commerce platform built with React (Vite) and Node.js + Express + Prisma. This platform offers a complete shopping experience with secure authentication, product browsing, dynamic filtering, and order management.
     <br />
-    <a href="https:/dragon-ecommerce-frontend.vercel.app/"><strong>Live Demo »</strong></a>
+    <a href="https://dragon-ecommerce-frontend.vercel.app/"><strong>Live Demo »</strong></a>
     <br />
     <br />
     <a href="https://github.com/HazemSarhan/dragon-ecommerce-frontend/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
