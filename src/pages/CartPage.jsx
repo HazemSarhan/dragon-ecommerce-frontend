@@ -11,6 +11,7 @@ import axiosInstance from '@/lib/axiosInstance';
 import { useCart } from '@/context/CartContext';
 import { SkeletonItem, SkeletonSummary } from '@/components/CartItemsSkeleton';
 import { redirect, useNavigate } from 'react-router';
+import FooterUI from '@/components/FooterUI';
 
 const CartPage = () => {
   const {
@@ -167,6 +168,8 @@ const CartPage = () => {
             </div>
           </div>
         </div>
+
+        <FooterUI />
       </section>
     </>
   );

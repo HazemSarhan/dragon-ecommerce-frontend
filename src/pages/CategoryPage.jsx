@@ -13,6 +13,7 @@ import axiosInstance from '@/lib/axiosInstance';
 import ProductCardSkeleton from '@/components/ProductCardSkeleton';
 import { Slider } from '@/components/ui/slider';
 import toast from 'react-hot-toast';
+import FooterUI from '@/components/FooterUI';
 
 const CategoryPage = () => {
   const { categoryName } = useParams();
@@ -203,7 +204,7 @@ const CategoryPage = () => {
           </div>
         </div>
       </section>
-      <Footer />
+      <FooterUI />
     </>
   );
 };

@@ -22,6 +22,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from './ui/button';
 import { Sun, Moon } from 'lucide-react';
+import { Link } from 'react-router';
 
 export default function AdminSidebarLayout({
   children,
@@ -51,7 +52,10 @@ export default function AdminSidebarLayout({
             </BreadcrumbList>
           </Breadcrumb>
 
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-2">
+            <Button variant="ghost">
+              <Link to="/">Home</Link>
+            </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="relative">

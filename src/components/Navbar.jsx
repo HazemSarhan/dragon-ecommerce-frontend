@@ -226,10 +226,6 @@ const Navbar = () => {
             </Button>
           </Link>
 
-          <Button variant="ghost" size="icon">
-            <FaRegHeart className="text-xl" />
-          </Button>
-
           {/* Theme Switcher */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -299,20 +295,31 @@ const Navbar = () => {
             </div>
 
             {user ? (
-              <Button
-                variant="ghost"
-                className="justify-start px-3 w-full text-left"
-                onClick={() => setIsOpen(false)}
-              >
-                <Link to="/my-account" className="flex flex-col w-full">
+              <>
+                <Button
+                  variant="ghost"
+                  className="justify-start px-3 w-full text-left"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Link to="/my-account" className="flex flex-col w-full">
+                    <span className="text-base font-medium text-zinc-900 dark:text-white">
+                      My Account
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      Access your orders, wishlist, and more.
+                    </span>
+                  </Link>
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="justify-start px-3 w-full text-left"
+                  onClick={logout}
+                >
                   <span className="text-base font-medium text-zinc-900 dark:text-white">
-                    My Account
+                    Logout
                   </span>
-                  <span className="text-xs text-muted-foreground">
-                    Access your orders, wishlist, and more.
-                  </span>
-                </Link>
-              </Button>
+                </Button>
+              </>
             ) : (
               <>
                 <Button

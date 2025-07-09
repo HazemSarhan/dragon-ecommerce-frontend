@@ -24,6 +24,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/AuthContext';
 import { AdminAppSidebar } from './admin-app-sidebar';
+import { Link } from 'react-router';
 
 export default function AdminLayout({ children }) {
   const { setTheme } = useTheme();
@@ -55,7 +56,10 @@ export default function AdminLayout({ children }) {
             </BreadcrumbList>
           </Breadcrumb>
 
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-2">
+            <Button variant="ghost">
+              <Link to="/">Home</Link>
+            </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="relative">
