@@ -101,5 +101,3 @@ npm run dev
 [mongo-db]: https://svgur.com/i/19b4.svg
 [jwt]: https://svgshare.com/i/19bi.svg
 [db]: https://i.imgur.com/0CzwXXA.png
-
-# /dragon-ecommerce-frontend
