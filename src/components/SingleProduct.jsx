@@ -111,7 +111,7 @@ const SingleProduct = () => {
             </div>
 
             {/* Single Product Details */}
-            <div className="single-product flex flex-col md:flex-row justify-between">
+            <div className="single-product flex flex-col md:flex-row justify-between gap-10">
               <div className="left my-8">
                 <div className="image">
                   <SingleProductCardImage image={singleProduct.image} />

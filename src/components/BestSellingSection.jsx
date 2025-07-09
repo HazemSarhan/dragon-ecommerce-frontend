@@ -103,21 +103,21 @@ const BestSellingSection = () => {
               </SwiperSlide>
             ))
           : bestSellingProducts.map((product) => (
-              <SwiperSlide key={product.id} className="w-[280px]">
-                <Card className="h-full">
+              <SwiperSlide key={product.id}>
+                <Card className="h-full flex flex-col justify-between min-h-[380px]">
                   <Link to={`/product/${product.id}`}>
                     <CardHeader>
                       <img
                         src={product.image}
                         alt={product.name}
-                        className="w-full h-50 object-contain"
+                        className="w-full h-[180px] object-contain"
                       />
-                      <CardTitle className="text-base">
+                      <CardTitle className="text-base line-clamp-2">
                         {product.name}
                       </CardTitle>
                       <CardDescription className="text-sm">
                         ${product.price}
-                        <div className="reviews my-2 flex gap-2 text-sm text-white font-bold">
+                        <div className="reviews my-2 flex gap-2 text-sm font-bold">
                           <span className="text-black dark:text-white">
                             ({product.numOfReviews ?? 0})
                           </span>
@@ -131,7 +131,7 @@ const BestSellingSection = () => {
                   </Link>
                   <CardContent>
                     <Button
-                      className="w-full cursor-pointer"
+                      className="w-full cursor-pointer mt-auto"
                       onClick={() => {
                         if (!user) {
                           navigate('/login');
@@ -141,9 +141,7 @@ const BestSellingSection = () => {
                       }}
                     >
                       Add To Cart
-                      <span>
-                        <IoIosCart className="text-lg" />
-                      </span>
+                      <IoIosCart className="text-lg ml-1" />
                     </Button>
                   </CardContent>
                 </Card>
