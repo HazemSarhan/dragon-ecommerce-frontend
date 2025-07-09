@@ -8,6 +8,10 @@ import product7 from '@/assets/product-7.png';
 import product8 from '@/assets/product-8.png';
 import product9 from '@/assets/product-9.png';
 import product10 from '@/assets/product-10.png';
+import product11 from '@/assets/product-11.png';
+import product12 from '@/assets/product-12.png';
+import product13 from '@/assets/product-13.png';
+import product14 from '@/assets/product-14.png';
 import { ShieldCheck, Truck, Headphones } from 'lucide-react';
 
 export const categories = [
@@ -289,6 +293,38 @@ export const products = [
     category: 'ram',
     price: 329.99,
     image: product8,
+  },
+  {
+    id: 11,
+    title: 'ASUS ROG Thor 1000W Platinum II Power Supply',
+    category: 'PSU',
+    price: 439.39,
+    rating: 4.8,
+    image: product11,
+  },
+  {
+    id: 12,
+    title: 'Cooler Master MWE ATX 80 Plus Bronze Power Supply (750W)',
+    category: 'PSU',
+    price: 106.65,
+    rating: 4.8,
+    image: product12,
+  },
+  {
+    id: 13,
+    title: 'Samsung 9100 PRO 1TB PCIe 5.0 NVMe M.2 SSD',
+    category: 'Storage',
+    price: 189.2,
+    rating: 4.8,
+    image: product13,
+  },
+  {
+    id: 14,
+    title: 'NVME NV2 Kingston 1TB M.2 PCIe 4.0 3500MB',
+    category: 'Storage',
+    price: 93.32,
+    rating: 4.8,
+    image: product14,
   },
 ];
 

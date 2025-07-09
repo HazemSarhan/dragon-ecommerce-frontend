@@ -95,6 +95,7 @@ export default function AdminLayout({ children }) {
             </span>
           </h1>
         </div>
+
         {/* Page Body */}
         {children}
       </SidebarInset>

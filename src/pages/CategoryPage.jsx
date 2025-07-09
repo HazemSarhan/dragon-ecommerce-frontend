@@ -195,7 +195,7 @@ const CategoryPage = () => {
                   <ProductCard key={product.id} product={product} />
                 ))
               ) : (
-                <p className="text-nowrap">
+                <p className="text-wrap lg:text-nowrap text-sm text-gray-700 dark:text-gray-300">
                   Sorry, No products found in this category. Make sure you
                   comeback later!
                 </p>
